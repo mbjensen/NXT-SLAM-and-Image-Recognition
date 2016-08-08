@@ -50,34 +50,14 @@ namespace medina {
         }
 
         void moveForwards(float moveCentimeters) {
-            //comm->log("Moving forwards");
             float degrees = moveCentimeters / (float)MOTOR_CENTIMETERS_PR_DEGREE;
             moveStraight(degrees, abs(MOVEMENT_SPEED));
         }
 
-        /*
-        void rotateLeft(float degrees) {
-            if (degrees <= 0) {
-                comm->log("Negative turn degree value is not valid! (Left Turn)");
-                systick_wait_ms(2000); //Some time to read the error
-            } else if (degrees > MAX_TURN_DEGREES) {
-                comm->log("Turn degree above MAX_TURN_DEGREES not valid! (Left Turn)");
-                systick_wait_ms(2000); //Some time to read the error
-            } else {
-                left->setPWM(-abs(MOVEMENT_SPEED));
-                right->setPWM(abs(MOVEMENT_SPEED));
-                rotationHandler(degrees, right);
-                stopMotor();
-            }
-        }
-        */
-
         void rotateRight(int degrees) {
             if (degrees <= 0) {
-                //comm->log("Negative turn degree value is not valid! (Right Turn)");
                 systick_wait_ms(2000); //Some time to read the error
             } else if (degrees > MAX_TURN_DEGREES) {
-                //comm->logFormat("Turn degree above %d not valid! (Right Turn)", (int)MAX_TURN_DEGREES);
                 systick_wait_ms(2000); //Some time to read the error
             } else {
                 right->setPWM(-abs(MOVEMENT_SPEED));
@@ -101,11 +81,10 @@ namespace medina {
             left->setPWM(_pwm);
             right->setPWM(_pwm);
             int Pwm = _pwm;
-            // comm->log("Moving straight");
+
             while (true) {
                 float avgDegrees = (((left->getCount()) + (right->getCount())) / 2);
                 if (!areMotorsAligned()) {
-                    //comm->log("Motors not aligned. Forcing alignment...");
                     if(left->getCount() > right->getCount()) {
                         left->setPWM(Pwm - 5);
                     } else if (right->getCount() > left->getCount()) {
@@ -120,12 +99,6 @@ namespace medina {
                 } else if (degrees >= 0 && avgDegrees >= degrees) {
                     break;
                 }
-
-                //Security
-                /*if(alertMotorStopAndTurn()) {
-                    // One or more sensors were activated
-                    break;
-                }*/
             }
 
             stopMotor();
