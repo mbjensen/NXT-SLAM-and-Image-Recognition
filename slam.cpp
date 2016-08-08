@@ -84,7 +84,7 @@ namespace medina {
                 sensor_data.kinectOutput[i] = data[i];
             }
 
-			sensor_data.position.theta = (double)compassData;
+	    sensor_data.position.theta = (double)compassData;
             robotLengthMoved = centimetersMoved;
 
             newSlamStart();
